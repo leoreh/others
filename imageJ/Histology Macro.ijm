@@ -1,4 +1,4 @@
-// 	the following was created for processing of virus cabliration (histology) images
+// 	the following was created for processing of virus histology (virus cabliration) images
 // 	loads all images in a folder
 // 	modifies contrast and brightness of channel 2 (transmitted light)
 // 	modifies contrast and brightness of channel 1 (flourescence) only for x40 images
@@ -6,7 +6,8 @@
 // 	merges channels
 // 	exports individual slices, stack image, and stack video (.avi)
 
-// 	31 aug 19 LH 
+// 	31 aug 19 LH. 	updates:
+// 	30 jan 29 		auto B&C	
 
 
 // 	do not open images, just process
@@ -28,24 +29,28 @@ for (i = 1; i < list.length; i++) {
 		
 		// 	change trasmitted channel
 		Stack.setChannel(2);
-		setMinAndMax(0, 9572);			// brightness and contrast for all images
+		getMinAndMax(min, max);
+		//setMinAndMax(-1500, 3700);					// manual brightness and contrast for all images
+		//run("Enhance Contrast", "saturated=0.15"); 		// auto brightness and contrast
 		if (matches(list[i], ".*x40.*")) {
-			setMinAndMax(412, 412);			// brightness and contrast for x40 images
+			setMinAndMax(412, 412);						// manual brightness and contrast for x40 images
 		}	
 
 		//	changes flourescence channel
 		Stack.setChannel(1);		
-		setMinAndMax(0, 2324);			// brightness and contrast for all images		
+		getMinAndMax(min, max);
+		setMinAndMax(-30, 3227);
+		//run("Enhance Contrast", "saturated=0.05"); 											
 		if (matches(list[i], ".*x40.*")) {
-			setMinAndMax(0, 2324);		// brightness and contrast for x40 images
+			setMinAndMax(0, 2324);		
 		}	
-		run("Red");			// LUT to red
+		run("Red");			// LUT
 
 
 		//	merge channels
 		if (matches(list[i], ".*x40.*")) {
 		} else {			
-			run("Make Composite");		// brightness and contrast for x40 images
+			run("Make Composite");		
 		}	
 				
 		//run("Merge Channels...", "c2="+list[i]+" c4="+list[1]+" keep");
