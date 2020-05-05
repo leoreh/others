@@ -7,7 +7,8 @@
 // 	exports individual slices, stack image, and stack video (.avi)
 
 // 	31 aug 19 LH. 	updates:
-// 	30 jan 29 		auto B&C	
+// 	30 jan 20 		auto B&C	
+// 	04 apr 20		compatable w/ mdb and export each channel and merge
 
 
 // 	do not open images, just process
@@ -21,49 +22,56 @@ if (startsWith(getInfo("os.name"), "Windows"))
            dir = replace(dir, File.separator, "/");
 
 for (i = 1; i < list.length; i++) {	
-	if(endsWith(list[i], ".oif")) {
+	// if(endsWith(list[i], ".oif")) { 						// images saved w/ Olympus IX81
+	if(endsWith(list[i], ".lsm")) { 						// images saved w/ Meta (ZABAM)
 		list[i] = replace(list[i], File.separator, "/");
 		print("WORKING ON: " + dir + list[i]);
 		open(dir + list[i]);	
-		
+		basename = substring(list[i], 0, lengthOf(list[i]) - 4);	
 		
 		// 	change trasmitted channel
-		Stack.setChannel(2);
+		//Stack.setChannel(2);
 		getMinAndMax(min, max);
-		//setMinAndMax(-1500, 3700);					// manual brightness and contrast for all images
+		//setMinAndMax(-1500, 3700);						// manual brightness and contrast for all images
 		//run("Enhance Contrast", "saturated=0.15"); 		// auto brightness and contrast
 		if (matches(list[i], ".*x40.*")) {
-			setMinAndMax(412, 412);						// manual brightness and contrast for x40 images
+			setMinAndMax(412, 412);							// manual brightness and contrast for x40 images
 		}	
 
-		//	changes flourescence channel
-		Stack.setChannel(1);		
+		//	change flourescence channel
+		//Stack.setChannel(1);		
 		getMinAndMax(min, max);
-		setMinAndMax(-30, 3227);
+		//setMinAndMax(-30, 3227);
 		//run("Enhance Contrast", "saturated=0.05"); 											
 		if (matches(list[i], ".*x40.*")) {
 			setMinAndMax(0, 2324);		
 		}	
-		run("Red");			// LUT
-
-
-		//	merge channels
-		if (matches(list[i], ".*x40.*")) {
-		} else {			
-			run("Make Composite");		
-		}	
-				
+		//run("Red");			// LUT
+		
+		getDimensions(width, height, channels, slices, frames);
+		print("No. channels: " + channels);
+		print("No. z-frames: " + frames);
+		
 		//run("Merge Channels...", "c2="+list[i]+" c4="+list[1]+" keep");
 
 		//	export slices to jpeg
-		for (j = 1; j <= nSlices; j = j + 2){
-			setSlice(j);
-			saveAs("jpeg", dir + list[i] + "_" + j);
+		for (k = 1; k <= channels + 1; k++){
+			Stack.setChannel(k)				
+			for (j = 1; j <= frames; j++){			
+				//	merge channels
+				if (k == channels + 1) {				
+					run("Make Composite");		
+					name = dir + basename + "_mrg_" + "fr" + j;
+				} else {
+					name = dir + basename + "_ch_" + k + "fr" + j;
+				}	
+				Stack.setFrame(j);
+				saveAs("jpeg", name);
+			}
 		}
-
+		
 		// 	for stacks only:
-		print(nSlices);
-		if (nSlices > 2) {
+		if (frames > 2) {
 			// 	export avi
 			run("AVI... ", "compression=JPEG frame=5 save=["+dir+" "+list[i]+".avi]");
 	
