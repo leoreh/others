@@ -18,7 +18,7 @@ const int stim_pins[] = {9, 12};
 const int camSwch_pin = 2;
 const int stimSwch_pin = 3;
 const int abortSwch_pin = 7;        // force stops ltp stimulation
-int stimProtocol = 2;
+int stimProtocol = 1;
 int rep1, rep2, rep3, i, ii, iii;
 float stimF;
 
