@@ -10,6 +10,11 @@
 // 	30 jan 20 		auto B&C	
 // 	04 apr 20		compatable w/ mdb and export each channel and merge
 
+selectedChannels = newArray(1, 2, 3);
+
+nchans = lengthOf(selectedChannels);
+print("nchans: " +nchans)
+print("selectedChannels: " +selectedChannels[1])
 
 // 	do not open images, just process
 setBatchMode(false)
@@ -55,15 +60,17 @@ for (i = 1; i < list.length; i++) {
 		//run("Merge Channels...", "c2="+list[i]+" c4="+list[1]+" keep");
 
 		//	export slices to jpeg
-		for (k = 1; k <= channels + 1; k++){
-			Stack.setChannel(k)				
+		//for (k = 1; k <= channels + 1; k++){
+		for (k = 0; k < nchans + 1; k++){		
 			for (j = 1; j <= frames; j++){			
 				//	merge channels
-				if (k == channels + 1) {				
+				if (k == nchans) {				
 					run("Make Composite");		
 					name = dir + basename + "_mrg_" + "fr" + j;
 				} else {
-					name = dir + basename + "_ch_" + k + "fr" + j;
+								ch = selectedChannels[k];
+			Stack.setChannel(ch)	
+					name = dir + basename + "_ch" + ch + "_fr" + j;
 				}	
 				Stack.setFrame(j);
 				saveAs("jpeg", name);

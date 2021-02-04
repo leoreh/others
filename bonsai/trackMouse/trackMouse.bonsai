@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.5.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:drw="clr-namespace:Bonsai.Vision.Drawing;assembly=Bonsai.Vision"
                  xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
-                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -28,8 +28,8 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Timer">
-                <rx:DueTime>PT2M</rx:DueTime>
-                <rx:Period>PT0S</rx:Period>
+                <rx:DueTime>PT10S</rx:DueTime>
+                <rx:Period>PT10S</rx:Period>
               </Combinator>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
@@ -43,8 +43,8 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="drw:CreateCanvas">
                 <drw:Size>
-                  <drw:Width>996</drw:Width>
-                  <drw:Height>862</drw:Height>
+                  <drw:Width>812</drw:Width>
+                  <drw:Height>832</drw:Height>
                 </drw:Size>
                 <drw:Depth>U8</drw:Depth>
                 <drw:Channels>3</drw:Channels>
@@ -64,8 +64,8 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="cv:CreatePoint2f">
-                <cv:X>294.2917</cv:X>
-                <cv:Y>764.876953</cv:Y>
+                <cv:X>697.9122</cv:X>
+                <cv:Y>289.4647</cv:Y>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -121,9 +121,9 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="dsp:Histogram2D">
                 <dsp:MinX>0</dsp:MinX>
-                <dsp:MaxX>996</dsp:MaxX>
+                <dsp:MaxX>812</dsp:MaxX>
                 <dsp:MinY>0</dsp:MinY>
-                <dsp:MaxY>862</dsp:MaxY>
+                <dsp:MaxY>832</dsp:MaxY>
                 <dsp:BinsX>50</dsp:BinsX>
                 <dsp:BinsY>50</dsp:BinsY>
                 <dsp:Normalize>false</dsp:Normalize>
@@ -132,18 +132,20 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Timer">
-                <rx:DueTime>PT2M</rx:DueTime>
-                <rx:Period>PT0S</rx:Period>
+                <rx:DueTime>PT10S</rx:DueTime>
+                <rx:Period>PT10S</rx:Period>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Sample" />
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="cv:SaveImage">
-                <cv:FileName>D:\RTPP Bonsai Raw Data\test3 oft\Test1_test M1_Histogram_2020_6_9_(13, 22).jpg</cv:FileName>
-                <cv:Suffix>None</cv:Suffix>
-              </Combinator>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="cv:SaveImage">
+                  <cv:FileName>E:\Data\Video\lh46 CFC 25-27feb20\dfg.png</cv:FileName>
+                  <cv:Suffix>None</cv:Suffix>
+                </Combinator>
+              </Builder>
             </Expression>
           </Nodes>
           <Edges>
@@ -264,7 +266,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="cv:FileCapture">
-          <cv:FileName>E:\Data\Videos\lh46 CFC 25-27feb20\Basler_Cam__22940788__20200225_183216350.mp4</cv:FileName>
+          <cv:FileName>E:\Data\Video\lh46 CFC 25-27feb20\Basler_Cam__22940788__20200225_183216350.mp4</cv:FileName>
           <cv:PlaybackRate>200</cv:PlaybackRate>
           <cv:StartPosition>0</cv:StartPosition>
           <cv:PositionUnits>Frames</cv:PositionUnits>
@@ -283,10 +285,10 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="cv:Crop">
           <cv:RegionOfInterest>
-            <cv:X>144</cv:X>
-            <cv:Y>162</cv:Y>
-            <cv:Width>996</cv:Width>
-            <cv:Height>862</cv:Height>
+            <cv:X>224</cv:X>
+            <cv:Y>187</cv:Y>
+            <cv:Width>812</cv:Width>
+            <cv:Height>832</cv:Height>
           </cv:RegionOfInterest>
         </Combinator>
       </Expression>
